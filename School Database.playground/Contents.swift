@@ -13,11 +13,21 @@ import UIKit
 /*: 1. Let’s get started by building the model for the Student. Create a new struct named Student. Add a **name** property of type String and a **favoriteTeacherIDproperty** of type Int.
 
  */
-
+struct Student {
+    var name: String = ""
+    var favoriteTeacherIDproperty: Int = 0
+    
+   
+}
 
 /*:2.Now let’s add the model for the Teacher. Create a new struct named Teacher. Add a name property of type String and a id property of type Int.
 */
-
+struct Teacher {
+    var nameT: String
+    var id: Int
+    var email: String?
+    var hairColor : String?
+}
 
 
 /*:3.Every teacher will have a name and id, but there are some properties that not every teacher will have. Add an **email** and a **hairColor**, both of type String?.
@@ -25,12 +35,50 @@ import UIKit
 //: ### School Definition and Finding Teachers
 /*:4.Finally, add a new School struct. A school has a name of type String and a list of teachers of type [Teacher].
  */
+struct School {
+    var schoolName : String?
+    var teachers: [Teacher]
+    
+    func getTeacher(withID: Int ) -> Teacher?{
+        for teacher in teachers{
+            if teacher.id == withID
+            {
+                return teacher
+            }
+        }
+        return nil
+    }
+    func printFavoriteTeacherInfo(for student: Student)
+    {
+        if let teacher = getTeacher(withID: student.favoriteTeacherIDproperty)
+        {
+            print("\(student.name)'s favorite teacher is \(teacher.nameT)")
+            print(" My teacher's hair color is: \(teacher.hairColor ?? "no color")")
+            
+            if let email = teacher.email
+            {
+                print(email)
+            }
+            else{
+                print("No email found on file")
+            }
 
+        }
+        else{
+            print("Teacher not found")
+        }
+        
+
+    }
+    
+
+    
+    
+}
 
 
 /*:5.A School should be able to find the Teacher who matches a given ID. Let’s add a function that returns the Teacher associated with an ID. If the Teacher works in the School, the function should return that Teacher. If the Teacher isn’t in the School, then the function should return nil. Get started by adding a new method to the School called getTeacher(withID:)that takes in an ID named “id” of type Int with an argument label “withID” and returns an optional `Teacher.
  */
-
 
 
 /*:6. Now build the body of the **getTeacher(withID:)** method. In it you should:
@@ -71,12 +119,15 @@ import UIKit
  Hint: nil can be passed in as an argument to any property of an initializer that accepts an optional:
  
  */
+var t1 = Teacher(nameT: "Marvin", id: 1082)
+var t2 = Teacher(nameT: "Amy", id: 1803)
+var t3 = Teacher(nameT: "Brittany", id: 1804)
 
-
+var teach = [t1, t2, t3]
 /*:
  12.Make a new constant and assign it to an instance of a School. In the initializer for the School, you should pass in the array of Teachers you created above.
 */
-
+let school = School(schoolName: "STEM", teachers: teach)
 
 
 /*:
@@ -84,7 +135,8 @@ import UIKit
  Hint: The non-matching ID can be any number that a Teacher doesn’t have. This will help test to make sure that your program can handle Students whose favorite Teacher works at a different
  
  */
-
+var student1 = Student(name: "Mary", favoriteTeacherIDproperty: 1082)
+var student2 = Student(name: "Nice", favoriteTeacherIDproperty: 1000)
 
 
 /*:
@@ -94,3 +146,4 @@ import UIKit
 
  
  */
+school.printFavoriteTeacherInfo(for: student1)
